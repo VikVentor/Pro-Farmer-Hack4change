@@ -7,3 +7,6 @@ Sensors used:
 - LDR
 - MQ gas sensor
 - Relay module
+
+OS: Ubuntu 22.04
+gtts for text to speech
