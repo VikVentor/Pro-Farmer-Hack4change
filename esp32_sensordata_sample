@@ -1,0 +1,49 @@
+import requests
+import time
+from pynput import keyboard
+
+ESP32_IP = 'http://192.168.37.99'  # Replace with your ESP32 IP address
+SOIL_MOISTURE_ENDPOINT = '/'
+CONTROL_ENDPOINT = '/control'
+
+def get_soil_moisture():
+    try:
+        response = requests.get(ESP32_IP + SOIL_MOISTURE_ENDPOINT)
+        if response.status_code == 200:
+            print(response.text)
+        else:
+            print(f"Failed to get soil moisture data: {response.status_code}")
+    except requests.exceptions.RequestException as e:
+        print(f"Error: {e}")
+
+def control_relay(state):
+    try:
+        response = requests.post(ESP32_IP + CONTROL_ENDPOINT, data={'state': state})
+        if response.status_code == 200:
+            print(response.text)
+        else:
+            print(f"Failed to control relay: {response.status_code}")
+    except requests.exceptions.RequestException as e:
+        print(f"Error: {e}")
+
+def on_press(key):
+    try:
+        if key.char == 'r':
+            control_relay("on")
+            print("Relay turned on")
+        elif key.char == 'o':
+            control_relay("off")
+            print("Relay turned off")
+    except AttributeError:
+        pass  # Ignore special keys
+
+if __name__ == "__main__":
+    print("Press 'r' to turn on the relay and 'o' to turn off the relay.")
+    # Start listening for key presses
+    listener = keyboard.Listener(on_press=on_press)
+    listener.start()
+
+    while True:
+        # Periodically get soil moisture data
+        get_soil_moisture()
+        time.sleep(10)  # Adjust this to the desired frequency of data retrieval
