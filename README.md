@@ -1,4 +1,4 @@
-# Pro-Farmer-Hack4change
+# Pro-Farmer-ai-Hack4change
 Team: Ventoron, Name: Charuvikrama  K S
 
 Pro Farer is a python based AI- Assistant that implements the concept of AIoT: Artificial Intelligence of things. 
